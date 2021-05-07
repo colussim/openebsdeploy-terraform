@@ -593,9 +593,6 @@ Terraform makes it easy to manage Kubernetes clusters and Kubernetes resources e
 
 OpenEBS extends the benefits of software-defined storage to cloud native through the container attached storage approach. It represents a modern, contemporary way of dealing with storage in the context of microservices and cloud native applications.
 
-## Next step
-
-**[Using Volume Snapshot and Clone of a cStor Volume in OpenEBS](../openebs-features/index.html)**
 
 ## Resources :
 
