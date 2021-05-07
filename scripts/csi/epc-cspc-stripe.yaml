@@ -1,0 +1,22 @@
+apiVersion: cstor.openebs.io/v1
+kind: CStorPoolCluster
+metadata:
+  name: cstor-storage
+  namespace: epc-openebs
+spec:
+  pools:
+    - nodeSelector:
+        kubernetes.io/hostname: "cabernet"
+      dataRaidGroups:
+      - blockDevices:
+          - blockDeviceName: "blockdevice-a565e70b8c1248f9ecfb50bb918bd304"
+      poolConfig:
+        dataRaidGroupType: "stripe"
+
+    - nodeSelector:
+        kubernetes.io/hostname: "sauvignon" 
+      dataRaidGroups:
+        - blockDevices:
+            - blockDeviceName: "blockdevice-804794f18d1d3e51663d181a2d1169e5"
+      poolConfig:
+        dataRaidGroupType: "stripe"

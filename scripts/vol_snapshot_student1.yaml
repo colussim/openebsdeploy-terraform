@@ -1,0 +1,7 @@
+apiVersion: volumesnapshot.external-storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: vol-snapshot-student1
+  namespace: student1
+spec:
+  persistentVolumeClaimName: pvc-mssqldata01-student1

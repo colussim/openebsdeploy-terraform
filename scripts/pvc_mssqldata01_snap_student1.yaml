@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+ name: pvc-mssqldata01-snap-student1
+ namespace: student1
+ annotations:
+  snapshot.alpha.kubernetes.io/snapshot: vol-snapshot-student1
+spec:
+ storageClassName: openebs-sc-student1
+ accessModes: [ "ReadWriteOnce" ]
+ resources:
+  requests:
+    storage: 50Gi
