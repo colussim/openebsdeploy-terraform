@@ -23,7 +23,7 @@ OpenEBS third and simplest storage engine is **Local Persistent Volume (Local PV
 
 ![Architecture, the OpenEBS Architecture](/images/engines.png)
 
-For more information on the OpenEBS architecture : [![Architecture, the OpenEBS Architecture](/images/openebs-logo.png)](https://docs.openebs.io/docs/next/architecture.html "the OpenEBS Architecture"){:target="_blank" }
+For more information on the OpenEBS architecture : [![Architecture, the OpenEBS Architecture](/images/openebs-logo.png)](https://docs.openebs.io/docs/next/architecture.html "the OpenEBS Architecture")
 
 In this post you will see :
 - How to deploy OpenEBS with Terraform
@@ -316,7 +316,7 @@ Create a StoragePoolClaim configuration YAML and update the required details.
 
 Create a StoragePoolClaim configuration YAML file called cstor-pool1-config.yaml with the following content.
 The resources will be shared for all the volume replicas that reside on a pool. The value of these resources can be 2Gi to 4Gi per pool on a given node for better performance. These values can be changed as per the Node configuration for better performance.
-Refer **[setting pool](https://docs.openebs.io/docs/next/ugcstor.html#setting-pool-policies){:target="_blank" }** policies for more details on the pool policies applicable for cStor.
+Refer **[setting pool](https://docs.openebs.io/docs/next/ugcstor.html#setting-pool-policies)** policies for more details on the pool policies applicable for cStor.
 
 ```
 #Use the following YAMLs to create a cStor Storage Pool.
@@ -354,7 +354,7 @@ In the above file, change the following parameters as required.
 
     This field represents how the data will be written to the disks on a given pool instance on a node. Supported values are ***striped, mirrored, raidz and raidz2***.
 
-    Note: In OpenEBS, the pool instance does not extend beyond a node. The replication happens at volume level but not at the pool level. See **[volumes and pools](https://docs.openebs.io/docs/next/cstor.html#relationship-between-cstor-volumes-and-cstor-pools){:target="_blank" }** relationship in cStor for a deeper understanding.
+    Note: In OpenEBS, the pool instance does not extend beyond a node. The replication happens at volume level but not at the pool level. See **[volumes and pools](https://docs.openebs.io/docs/next/cstor.html#relationship-between-cstor-volumes-and-cstor-pools)** relationship in cStor for a deeper understanding.
 
 * ***blockDeviceList***
 
@@ -416,7 +416,7 @@ $
 StorageClass definition is an important task in the planning and execution of OpenEBS storage.
 
 You can create a new StorageClass YAML called openebs-sc-student1.yaml and add content to it from below. By using this spec, a StorageClass (***openebs-sc-student1***) will be created with 2 OpenEBS cStor replicas and will configure them on the pools associated with the **StoragePoolClaim:cstor-disk-pool**.
-Refer **[setting storage policies](https://docs.openebs.io/docs/next/ugcstor.html#creating-cStor-storage-class){:target="_blank" }** for more details on Storage Policies.
+Refer **[setting storage policies](https://docs.openebs.io/docs/next/ugcstor.html#creating-cStor-storage-class)** for more details on Storage Policies.
 
 ```
 apiVersion: storage.k8s.io/v1
@@ -459,7 +459,7 @@ $
 ### Deployment of a database instance
 
 We will use our Terraform Microsoft SQL Server 2019 Linux deployment plan described in the following post :
-**[Deploying Microsoft SQL Server 2019 Linux to an Kubernetes Cluster using Terraform](../terraform-mssqlk8s/index.html){:target="_blank" }**
+**[Deploying Microsoft SQL Server 2019 Linux to an Kubernetes Cluster using Terraform](../terraform-mssqlk8s/index.html)**
 To deploy Microsoft SQL Server on our OpenEBS storage.
 We will provision a Persistent Volume Claim (PVC): **pvc-mssqldata01-student1** with our storage class : **openebs-sc-student1**
 
@@ -595,10 +595,10 @@ OpenEBS extends the benefits of software-defined storage to cloud native through
 
 ## Next step
 
-**[Using Volume Snapshot and Clone of a cStor Volume in OpenEBS](../openebs-features/index.html){:target="_blank" }**
+**[Using Volume Snapshot and Clone of a cStor Volume in OpenEBS](../openebs-features/index.html)**
 
 ## Resources :
 
-[![Documentation, the OpenEBS Documentation](/images/openebs-logo.png)](https://docs.openebs.io/docs "the OpenEBS Documentation"){:target="_blank" } Documentation
+[![Documentation, the OpenEBS Documentation](/images/openebs-logo.png)](https://docs.openebs.io/docs "the OpenEBS Documentation") Documentation
 
-[![Documentation, the Terraform Documentation](/images/terraform.png){:height="50px" width="57px"}](https://www.terraform.io/docs/index.html "the Terraform Documentation"){:target="_blank" } Documentation
+[![Documentation, the Terraform Documentation](/images/terraform.png)(https://www.terraform.io/docs/index.html "the Terraform Documentation") Documentation
