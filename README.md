@@ -2,7 +2,7 @@
 Using HELM Chart to Deploying OpenEBS to an Kubernetes Cluster using Terraform
 After having been interested in the pure kubernetes storage management part proposed by HPE : **HPE Ezmeral Data Fabric** (formerly MapR Data Platform) delivered with their large scale containerized application deployment and management tool : **HPE Ezmeral Container Platform**,i wanted to test a more lite kubernetes storage solution.
 
-I chose a native kubernetes **OpenEBS solution !** ![OpenEBS, OpenEBS](/images/openebs-stacked-color.png){:height="150px" width="157px"}{: style="float:right"}
+I chose a native kubernetes **OpenEBS solution !
 
 
 This tool provides storage for Kubernetes stateful workloads using Kubernetes itself for storage management. OpenEBS can for example use the storage available on the cluster nodes to create replicated volumes! The architecture of this solution is really interesting because we can see the philosophy of microservices applied to storage.
@@ -53,23 +53,23 @@ Before you get started, you’ll need to have these things:
 
 Clone the repository and install the dependencies:
 
-{% highlight ruby %}
+```
 
 $ git clone https://github.com/colussim/openebsdeploy-terraform.git
 $ cd openebsdeploy-terraform
 $ terraform init
 
-{% endhighlight %}
+```
 
 ## Usage
 
 Deploy OpenEBS:
 
-{% highlight ruby %}
+```
 $ terraform apply \
  -var="namespace=epc-openebs" \
 
-{% endhighlight %}
+```
 
 If you use the ***terraform apply*** command without parameters the default values will be those defined in the ***variables.tf*** file.
 
@@ -80,9 +80,9 @@ This will do the following :
 
 Tear down the whole Terraform plan with :
 
-{% highlight ruby %}
+```
 $ terraform destroy -force
-{% endhighlight %}
+```
 
 Resources can be destroyed using the terraform destroy command, which is similar to terraform apply but it behaves as if all of the resources have been removed from the configuration.
 
@@ -91,7 +91,7 @@ Resources can be destroyed using the terraform destroy command, which is similar
 
 Wait for some time to see all the pods in the running state in the OpenEBS namespace (dans cette exemple le namespace est epc-openebs) :
 
-{% highlight ruby %}
+```
 $ kubectl get pods -n epc-openebs
 
 NAME                                               READY   STATUS    RESTARTS   AGE
@@ -104,7 +104,7 @@ epc-openebs-ndm-operator-6f94f484b5-nr7n6          1/1     Running   0          
 epc-openebs-provisioner-58449b68bc-5cjzd           1/1     Running   0          5d15h
 epc-openebs-snapshot-operator-74b8449d5c-m7lz7     2/2     Running   0          5d15h
 $
-{% endhighlight %}
+```
 
 The pods ***epc-openebs-ndm-xxx*** should be running on all worker nodes or on the nodes that are selected through nodeSelector configuration.
 This pod is responsible for scanning the host for the block devices that can be used by the applications. As we need to check the devices mount in all the nodes this pod is deployed as a daemonset.
@@ -117,7 +117,7 @@ The OpenEBS operator will deploy each Snapshot-controller and snapshot-provision
 
 Check if they are scheduled on the appropriate nodes by listing the pods through  : ***kubectl get pods -n epc-openebs -o wide***
 
-{% highlight ruby %}
+```
 $ kubectl get pods -n epc-openebs -o wide
 
 AME                                               READY   STATUS    RESTARTS   AGE     IP            NODE        NOMINATED NODE   READINESS GATES
@@ -130,7 +130,7 @@ epc-openebs-ndm-operator-6f94f484b5-nr7n6          1/1     Running   0          
 epc-openebs-provisioner-58449b68bc-5cjzd           1/1     Running   0          5d18h   10.36.0.4     sauvignon   <none>           <none>
 epc-openebs-snapshot-operator-74b8449d5c-m7lz7     2/2     Running   0          5d18h   10.36.0.3     sauvignon   <none>           <none>
 $
-{% endhighlight %}
+```
 
 
 ### Verify Block Device CRs
@@ -141,7 +141,7 @@ The disks that match the exclusions in 'vendor-filter' and 'path-filter'
 The disks that are already mounted in the node
 
 List the block device CRs to verify the CRs are appearing as expected.
-{% highlight ruby %}
+```
 $ kubectl get blockdevice -o wide -n epc-openebs
 
 
@@ -157,13 +157,13 @@ blockdevice-c9f10ae32f939a70e686b4e53fda2ad8   sauvignon   /dev/dm-8            
 blockdevice-caf55be6298940aada433108257b9074   cabernet    /dev/dm-5                   2280392753152   Unclaimed    Inactive   5d22h
 $
 
-{% endhighlight %}
+```
 
 
 In our configuration we have 3 disks of 110 GB available on each workers nodes :
 
 **Node cabernet**
-{% highlight ruby %}
+```
 $ multipath -ll
 
 mpathdg (2dba169173d66373f6c9ce9004fa55341) dm-13 HP  ,LOGICAL VOLUME
@@ -183,10 +183,10 @@ size=110G features='1 queue_if_no_path' hwhandler='1 alua' wp=rw
   `- 3:0:0:0 sdg 8:96  active undef running
   $
 
-  {% endhighlight %}
+```
 
   **Node sauvignon**
-  {% highlight ruby %}
+ ```
   $ multipath -ll
 
   mpathbz (21fb5968af62155cd6c9ce9004fa55341) dm-9 HP  ,LOGICAL VOLUME
@@ -207,11 +207,11 @@ size=110G features='1 queue_if_no_path' hwhandler='1 alua' wp=rw
 
     $
 
-    {% endhighlight %}
+```
 
 To know which block device CR belongs to which node, check the node label set on the CR by doing the following command :
 
-{% highlight ruby %}
+```
 $kubectl describe blockdevice blockdevice-60816734326c5570b533375d7a64043b -n epc-openebs
 
 Name:         blockdevice-60816734326c5570b533375d7a64043b
@@ -304,7 +304,7 @@ Status:
   State:        Inactive
 Events:         <none>
 $
-{% endhighlight %}
+```
 
 
 Now we can create cStor Storage Pools.
@@ -318,7 +318,7 @@ Create a StoragePoolClaim configuration YAML file called cstor-pool1-config.yaml
 The resources will be shared for all the volume replicas that reside on a pool. The value of these resources can be 2Gi to 4Gi per pool on a given node for better performance. These values can be changed as per the Node configuration for better performance.
 Refer **[setting pool](https://docs.openebs.io/docs/next/ugcstor.html#setting-pool-policies){:target="_blank" }** policies for more details on the pool policies applicable for cStor.
 
-{% highlight ruby %}
+```
 #Use the following YAMLs to create a cStor Storage Pool.
 apiVersion: openebs.io/v1alpha1
 kind: StoragePoolClaim
@@ -346,7 +346,7 @@ spec:
     - blockdevice-979d5f100a1e5a97488036a1a7920662
     - blockdevice-7c6542453aa8c16f488f9458beb10353
 ---
-{% endhighlight %}
+```
 
 In the above file, change the following parameters as required.
 
@@ -382,34 +382,33 @@ In the above file, change the following parameters as required.
 
 Now execute the above yaml file using the below-mentioned command
 
-{% highlight ruby %}
+```
 $ kubectl apply -f cstor-pool1-config.yaml
 
   NAME              AGE
   cstor-disk-pool   26s
 $
-{% endhighlight %}
+```
 
 Verify if cStor Pool is created successfully using the following command.
 
-{% highlight ruby %}
+```
 $ kubectl get csp
 
 NAME                   ALLOCATED   FREE   CAPACITY   STATUS    READONLY   TYPE      AGE
 cstor-disk-pool-gcx0   3.59M       327G   327G       Healthy   false      striped   79m
 cstor-disk-pool-t6ps   1.83M       109G   109G       Healthy   false      striped   79m
 $
-{% endhighlight %}
+```
 
 Verify if cStor pool pods are running using the following command.
-
-{% highlight ruby %}
+```
 $ kubectl get pod -n epc-openebs | grep cstor-disk-pool
 
 cstor-disk-pool-gcx0-64857c9b4c-5cl4f              3/3     Running   0          80m
 cstor-disk-pool-t6ps-7df69c9977-mjr6c              3/3     Running   0          80m
 $
-{% endhighlight %}
+```
 
 
 ### Create a StorageClasses:
@@ -419,7 +418,7 @@ StorageClass definition is an important task in the planning and execution of Op
 You can create a new StorageClass YAML called openebs-sc-student1.yaml and add content to it from below. By using this spec, a StorageClass (***openebs-sc-student1***) will be created with 2 OpenEBS cStor replicas and will configure them on the pools associated with the **StoragePoolClaim:cstor-disk-pool**.
 Refer **[setting storage policies](https://docs.openebs.io/docs/next/ugcstor.html#creating-cStor-storage-class){:target="_blank" }** for more details on Storage Policies.
 
-{% highlight ruby %}
+```
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -437,25 +436,25 @@ provisioner: openebs.io/provisioner-iscsi
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
 
-{% endhighlight %}
+```
 
 Now execute the above yaml file using the below-mentioned command
 
-{% highlight ruby %}
+```
 kubectl create -f openebs-sc-student1.yaml
 storageclass.storage.k8s.io/openebs-sc-student1 created
 $
-{% endhighlight %}
+```
 
 Verify if storageclass : **openebs-sc-student1** is created successfully using the following command.
 
-{% highlight ruby %}
+```
 $ kubectl get sc|grep student1
 
 NAME                 PROVISIONER                   RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
 openebs-sc-student1  openebs.io/provisioner-iscsi  Delete          Immediate              false                  4m35s
 $
-{% endhighlight %}
+```
 
 ### Deployment of a database instance
 
@@ -466,7 +465,7 @@ We will provision a Persistent Volume Claim (PVC): **pvc-mssqldata01-student1** 
 
 Create a MS SQL Server instance:
 
-{% highlight ruby %}
+```
 $ terraform apply \
  -var="name=mssql-deployment-student1" \
  -var="namespace=student1" \
@@ -476,55 +475,52 @@ $ terraform apply \
  -var="mssql_image_url=mcr.microsoft.com/mssql/rhel/server" \
  -var="mssql_image_tag=2019-latest" \
  -var="adminpassword=HPeinvent@"
-{% endhighlight %}
+```
 
 Check if your SQL Server instance works:
 
-{% highlight ruby %}
+```
 $ kubectl get pods -n student1
 
 NAME                                         READY   STATUS    RESTARTS   AGE
 mssql-deployment-student1-677b58bfc9-gzg7r   1/1     Running   0          79s
-$
-{% endhighlight %}
+```
 
 Our PVC is well created if our pods are running ...
 
-{% highlight ruby %}
+```
 $ kubectl get pvc -n student1
 
 NAME                       STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS          AGE
 pvc-mssqldata01-student1   Bound    pvc-2019924f-5461-4853-9d0e-d3ea272c8147   50Gi       RWO            openebs-sc-student1   5m30s
-$
-{% endhighlight %}
+```
 
 Perform the following command to get the details of the replicas of corresponding cStor volume:
-
-{% highlight ruby %}
+```
 $ kubectl get cvr -n epc-openebs -l openebs.io/persistent-volume=pvc-2019924f-5461-4853-9d0e-d3ea272c8147
 NAME                                                            USED    ALLOCATED   STATUS    AGE
 pvc-2019924f-5461-4853-9d0e-d3ea272c8147-cstor-disk-pool-gcx0   94.5M   17.2M       Healthy   14m
 pvc-2019924f-5461-4853-9d0e-d3ea272c8147-cstor-disk-pool-t6ps   94.4M   17.2M       Healthy   14m
 $
-{% endhighlight %}
+```
 
 **Check connexion to Microsoft SQL Server instance**
 
 To access the SQL Server Instance you’ll need to find its port map :
-{% highlight ruby %}
+```
 $ kubectl get svc -n student1
 
 NAME                                TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
 mssql-deployment-student1-service   NodePort   10.101.67.163   <none>        1433:30561/TCP   5h55m
 $
 
-{% endhighlight %}
+```
 
 In our deployment for the service we used the ***NodePort*** directive and port **1433** is mapped externally to port **30561**.
 We can access our instance by specifying the name (or ip address) of one of the cluster nodes and port **30561**.
 
 You can connect to the SQL Server instance outside the Kubernetes cluster with command line :
-{% highlight ruby %}
+```
 
 $ sqlcmd -U sa -P HPeinvent@ -S 10.6.29.166,30561 -q "select @@version"
 
@@ -535,62 +531,61 @@ $ sqlcmd -U sa -P HPeinvent@ -S 10.6.29.166,30561 -q "select @@version"
 
 (1 rows affected)
 $
-{% endhighlight %}
+```
 
 **we will now restore a database :**
 
 - STEP 1: Get POD Name :
-{% highlight ruby %}
+```
 $ export POD_NAME=`kubectl get pods -n student1|grep mssql-deployment-student1|awk '{print$1}'`
-{% endhighlight %}
+```
 
 - STEP 2: create a backup folder :
-{% highlight ruby %}
+```
 $ kubectl -n student1 exec -it $POD_NAME -- mkdir /var/opt/mssql/backup
-{% endhighlight %}
+```
 
 - STEP 3: Copy data backup files :
-{% highlight ruby %}
+```
 $ kubectl -n student1 cp /home/mssql/db/WideWorldImporters-Full.bak $POD_NAME:/var/opt/mssql/backup
 $
 $ kubectl -n student1 cp /home/mssql/db/restorewide.sql $POD_NAME:/var/opt/mssql/backup
-{% endhighlight %}
+```
 
 **Check if files are copied.we must have 2 files: restorewide.sql and WideWorldImporters-Full.bak**
 
-{% highlight ruby %}
+```
 $ kubectl -n student1 exec -it $POD_NAME -- ls /var/opt/mssql/backup
 $ WideWorldImporters-Full.bak  restorewide.sql
-{% endhighlight %}
+```
 
 - STEP 4: Now now we can restore our Database
-
-{% highlight ruby %}
+```
 sqlcmd -U sa -P HPeinvent@ -S 10.6.29.166,30561 -i restoredb.sql
 Database 'WideWorldImporters' running
 100 percent processed.
 RESTORE DATABASE successfully processed 58455 pages in 47.332 seconds (9.648 MB/sec).
-{% endhighlight %}
+```
 
 After a few seconds the database is restored
 
 - STEP 5: Verify the restored database
-{% highlight ruby %}
+```
 sqlcmd -U sa -P HPeinvent@ -S 10.6.29.166,30561 -Q  "SELECT TOP 10 StockItemID, StockItemName FROM WideWorldImporters.Warehouse.StockItems ORDER BY StockItemID"
 
-{% endhighlight %}
+```
 
 Perform the following command to get the details of the replicas of corresponding cStor volume:
 we can notice that the space used has increased and that it is synchronous on the second replica (due to the restoration of the database).
 
-{% highlight ruby %}
+```
 $ kubectl get cvr -n epc-openebs -l openebs.io/persistent-volume=pvc-2019924f-5461-4853-9d0e-d3ea272c8147
 NAME                                                            USED    ALLOCATED   STATUS    AGE
 pvc-2019924f-5461-4853-9d0e-d3ea272c8147-cstor-disk-pool-gcx0   814M   384M        Healthy   6h54m
 pvc-2019924f-5461-4853-9d0e-d3ea272c8147-cstor-disk-pool-t6ps   814M   384M        Healthy   6h54m
 
 $
-{% endhighlight %}
+```
 
 ## Conclusion
 
