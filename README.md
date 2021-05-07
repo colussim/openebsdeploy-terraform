@@ -23,7 +23,7 @@ OpenEBS third and simplest storage engine is **Local Persistent Volume (Local PV
 
 ![Architecture, the OpenEBS Architecture](/images/engines.png)
 
-For more information on the OpenEBS architecture : [![Architecture, the OpenEBS Architecture](/images/openebs-stacked-color.png){:height="50px" width="57px"}](https://docs.openebs.io/docs/next/architecture.html "the OpenEBS Architecture"){:target="_blank" }
+For more information on the OpenEBS architecture : [![Architecture, the OpenEBS Architecture](/images/openebs-logo.png)](https://docs.openebs.io/docs/next/architecture.html "the OpenEBS Architecture"){:target="_blank" }
 
 In this post you will see :
 - How to deploy OpenEBS with Terraform
@@ -599,6 +599,6 @@ OpenEBS extends the benefits of software-defined storage to cloud native through
 
 ## Resources :
 
-[![Documentation, the OpenEBS Documentation](/images/openebs-stacked-color.png){:height="50px" width="57px"}](https://docs.openebs.io/docs "the OpenEBS Documentation"){:target="_blank" } Documentation
+[![Documentation, the OpenEBS Documentation](/images/openebs-logo.png)](https://docs.openebs.io/docs "the OpenEBS Documentation"){:target="_blank" } Documentation
 
 [![Documentation, the Terraform Documentation](/images/terraform.png){:height="50px" width="57px"}](https://www.terraform.io/docs/index.html "the Terraform Documentation"){:target="_blank" } Documentation
