@@ -597,6 +597,8 @@ OpenEBS extends the benefits of software-defined storage to cloud native through
 
 ## Resources :
 
-[![Documentation, the OpenEBS Documentation](/images/openebs-logo.png)](https://docs.openebs.io/docs "the OpenEBS Documentation") Documentation
+[![Documentation, the OpenEBS Documentation](/images/openebs-logo.png)](https://docs.openebs.io/docs "the OpenEBS Documentation") The OpenEBS Documentation
 
-[![Documentation, the Terraform Documentation](/images/terraformlogo.png)](https://www.terraform.io/docs/index.html "the Terraform Documentation") Documentation
+[![Documentation, the Terraform Documentation](/images/terraformlogo.png)](https://www.terraform.io/docs/index.html "the Terraform Documentation") The Terraform Documentation
+
+
