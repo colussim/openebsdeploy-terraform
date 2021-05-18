@@ -41,6 +41,7 @@ Before you get started, you’ll need to have these things:
 * Kubernetes 1.13+ with RBAC enabled
 * iSCSI PV support in the underlying infrastructure
 * Storage disk available in each workers nodes
+* kubernetes config file on Terraform platform (setup path in maint.tf file)
 
 
 ## Infra
