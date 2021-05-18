@@ -9,7 +9,7 @@ resource "helm_release" "epc_openebs" {
   name       = "epc-openebs"
   repository = "https://openebs.github.io/charts"
   chart      = "openebs"
-  version    = "2.8.0"
+  version    = "2.9.0"
   namespace  = var.namespace
 
 	set {
