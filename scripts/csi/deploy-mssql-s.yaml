@@ -39,7 +39,7 @@ spec:
         - name: SA_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: sqlsecret 
+              name: csi-sqlsecret-student1 
               key: sapassword 
         volumeMounts:
         - name: mssqldb
