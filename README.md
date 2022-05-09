@@ -1,3 +1,5 @@
+![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white) ![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)
+
 # openebsdeploy-terraform
 Using HELM Chart to Deploying OpenEBS to an Kubernetes Cluster using Terraform
 After having been interested in the pure kubernetes storage management part proposed by HPE : **HPE Ezmeral Data Fabric** (formerly MapR Data Platform) delivered with their large scale containerized application deployment and management tool : **HPE Ezmeral Container Platform**,i wanted to test a more lite kubernetes storage solution.
